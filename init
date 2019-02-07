@@ -1,0 +1,26 @@
+#!/bin/bash
+
+CURRENT=`pwd`
+
+function setup_project() {
+  # $1 is each repo
+  cd $1
+  C=`pwd`
+  BASENAME=`basename $C`
+  echo "Installing depedencies for $BASENAME"
+  echo "--------"
+  # bin/setup
+  ls
+
+  echo "--------"
+  cd ..
+  # echo `pwd`
+}
+
+for entry in "$CURRENT"/*
+do
+  echo "$entry"
+  if [[ -d $entry ]]; then
+    setup_project $entry
+  fi
+done
