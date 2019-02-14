@@ -1,5 +1,16 @@
 #!/bin/bash
+echo "Start setup"
+sudo apt-get update
+echo "Installing Node"
+yes | sudo apt-get install software-properties-common
+yes | curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+yes | sudo apt-get install -y nodejs
+yes | sudo apt-get install gcc g++ make
 
+echo "Install Posgresql"
+yes | sudo apt install postgresql postgresql-contrib libpq-dev
+
+echo "Setting up Projects"
 CURRENT=`pwd`
 
 function setup_project() {
@@ -7,14 +18,15 @@ function setup_project() {
   cd $1
   C=`pwd`
   BASENAME=`basename $C`
-  echo "Installing depedencies for $BASENAME"
-  echo "--------"
-  # bin/setup
-  ls
-
-  echo "--------"
+  if [ -d "bin" ]; then
+    # Control will enter here if $DIRECTORY exists.
+    echo "Installing depedencies for $BASENAME"
+    echo "--------"
+    bin/setup
+    echo "--------"
+  fi
   cd ..
-  # echo `pwd`
+
 }
 
 for entry in "$CURRENT"/*
@@ -24,3 +36,6 @@ do
     setup_project $entry
   fi
 done
+
+echo "Done."
+echo ""
